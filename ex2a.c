@@ -1,9 +1,16 @@
-/*
- * ex2a.c
- *
- *  Created on: Nov 29, 2020
- *      Author: sharonlevi
- */
+
+//ex2a
+// this program creates a child that generates 10 random prime numbers.
+// there is no user input. only play and watch the miracle.
+// the child gets 3 seconds to find 10 different prime numbers.
+// child is dead if he's unable to provide 3 different prime numbers in
+// 3 seconds. in this case the output will be "kill kid"
+// if the child comes up with 10 numbers, it prints them.
+
+// we may get the wanted output- 10 numbers & good boy
+// we may get "bad boy"
+// if the child is dead we will get "kill kid"
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <unistd.h>
@@ -11,16 +18,18 @@
 #include <time.h>
 #include <math.h>
 
-pid_t proccessID;
+// acts as bool
 #define TRUE 1
 #define FALSE 0
+
+pid_t proccessID;
 //------------------------------------------------------------------------
 void do_dad(pid_t );
 void do_son(void);
 void terminate (void);
 
 void catch_alarm(int);
-void * catch_sigterm(int arr[]);
+void * catch_sigterm(int arr[]);    // * to pass the array
 void child_handler(int );
 int is_prime(int num);
 int same_number_exist(const int arr[],int size,int num);
@@ -33,13 +42,14 @@ int main () {
 
     proccessID = fork();
 
-    if(proccessID < 0)
+    if (proccessID < 0){
         terminate();
-    if(proccessID > 0)
+    }
+    if (proccessID > 0){
         do_dad(proccessID);
-    else
+    }else{
         do_son();
-
+    }
     return EXIT_SUCCESS;
 }
 
@@ -54,9 +64,7 @@ void do_dad (pid_t son_pid) {
     pause();
     alarm(0);
 
-    if(WEXITSTATUS(son_pid)) {
-        child_handler;
-    }else {
+    if(!WEXITSTATUS(son_pid)) {
         printf("bad boy\n");
     }
 }
@@ -65,12 +73,9 @@ void do_son () {
     struct sigaction act;
     int arr[10];
     int num,i;
-
-
-    for(i=0; i<10 ; i++)
-    {
+    for(i = 0; i < 10 ; i++) {
         num = rand();
-        while(!is_prime(num) && same_number_exist(arr,i,num) ){
+        while(!is_prime(num) && same_number_exist(arr, i, num) ){
             num = rand();
         }
         arr[i]=num;
@@ -79,11 +84,10 @@ void do_son () {
     sigfillset(&act.sa_mask);
     act.sa_flags = 0;
     sigaction(SIGTERM,&act,NULL);
-
     exit (EXIT_SUCCESS);
 }
 //------------------------------------------------------------------------
-void catch_alarm() {
+void catch_alarm(int signum) {
     puts("Kill Kid\n");
     kill(proccessID,SIGTERM);
 }
@@ -114,9 +118,12 @@ void print_numbers(int arr[]) {
 }
 //------------------------------------------------------------------------
 void * catch_sigterm(int arr[]) {
+    void * a;
     print_numbers(arr);
+    return a;
 }
-
+//------------------------------------------------------------------------
 void child_handler(int signum){
     printf("good boy\n");
 }
+//------------------------------------------------------------------------
