@@ -1,9 +1,10 @@
+
 //ex2a
 // this program creates a child that generates 10 random prime numbers.
 // there is no user input. only play and watch the miracle.
 // the child gets 3 seconds to find 10 different prime numbers.
 // child is dead if he's unable to provide 3 different prime numbers in
-// 3 seconds. in this case the output will be "bad boy"
+// 3 seconds. in this case the output will be "kill kid"
 // if the child comes up with 10 numbers, it prints them.
 
 // we may get the wanted output- 10 numbers & good boy
@@ -25,7 +26,7 @@ pid_t proccessID;
 //------------------------------------------------------------------------
 void do_dad(pid_t );
 void do_son(void);
-void terminate (void);  
+void terminate (void);
 void catch_alarm(int);
 void * catch_sigterm(int []);    // * to pass the array
 void child_handler(int );
@@ -66,7 +67,7 @@ void do_dad (pid_t son_pid) {
 }
 //------------------------------------------------------------------------
 void do_son () {
-    struct sigaction act;       // a struct of sigaction 
+    struct sigaction act;       // a struct of sigaction
     int array_of_primes[10];
     int lottory_prime,i;
     for(i = 0; i < 10 ; i++) {
@@ -114,7 +115,7 @@ void print_numbers(int array_of_primes[]) {
 }
 //------------------------------------------------------------------------
 void * catch_sigterm(int array_of_primes[]) {
-    void * a;               // a only to silence a warning
+    void * a = NULL;               // a only to silence a warning
     print_numbers(array_of_primes);
     return a;
 }
