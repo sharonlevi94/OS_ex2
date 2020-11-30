@@ -21,5 +21,17 @@ ex2a:
                  2. "bad boy"
 **********************************************************************************
 ex2b:
- 
+ In this program we create a process.
+ * the dad and his son raffle numbers in loop.
+ * if the number smaller then 3 they finish.
+ * if doesn't, one send a signal to the other,
+ * and wait 5 sec for signal.
+ * if the signal came within 5 sec,
+ * they continue to next round in the loop.
+ * else- he is quit.
+ *
+ * there is race situations of outputs in this program:
+ * 1.dad & son raffle numbers one by one until one ends, the another 
+ *   wait 5 sec to the another and then quit.
+ * 2.they are blocking each other and wait to signal.
          
